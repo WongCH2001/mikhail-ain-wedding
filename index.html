@@ -39,6 +39,17 @@
             position: relative;
         }
         
+        .version-tag { 
+            position: absolute; 
+            bottom: 15px; 
+            right: 20px; 
+            font-family: var(--font-sans); 
+            color: var(--gold); 
+            font-size: 0.75rem; 
+            opacity: 0.6; 
+            z-index: 5; 
+        }
+        
         /* Gold Bokeh/Dust Overlay */
         .bokeh-overlay {
             position: fixed;
@@ -337,6 +348,7 @@
             <div class="wax-seal">M&A</div>
         </div>
         <div class="tap-hint sans-text">Tap to open</div>
+        <div class="version-tag">v1.2.2 (Testing)</div>
     </div>
 
     <div id="video-container">
@@ -666,7 +678,17 @@
         function skipVideo() {
             const videoContainer = document.getElementById('video-container');
             const mainContent = document.getElementById('main-content');
+            const bgVideo = document.getElementById('bg-video');
             
+            // --- NEW: Stop the video and audio ---
+            if (player && typeof player.pauseVideo === 'function') {
+                player.pauseVideo();
+            } else {
+                // Fallback if the skip button is pressed before the YouTube API fully loads
+                bgVideo.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            }
+            // -------------------------------------
+
             videoContainer.style.opacity = '0';
             mainContent.style.display = 'block';
             
