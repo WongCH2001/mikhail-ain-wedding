@@ -340,7 +340,7 @@
     </div>
 
     <div id="video-container">
-        <iframe id="bg-video" src="https://www.youtube.com/embed/6Mi8t5qMDYY?enablejsapi=1&autoplay=0&mute=1&controls=0&loop=1&playlist=6Mi8t5qMDYY" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe id="bg-video" src="https://www.youtube.com/embed/6Mi8t5qMDYY?enablejsapi=1&autoplay=0&mute=1&controls=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
         <button class="skip-btn" onclick="skipVideo()">Skip Video ➔</button>
     </div>
 
@@ -577,6 +577,29 @@
     </div>
 
     <script>
+        // --- NEW: YouTube API to detect when video ends ---
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('bg-video', {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            // YT.PlayerState.ENDED is 0
+            if (event.data === 0) {
+                skipVideo(); // Automatically go to website when video finishes
+            }
+        }
+        // --------------------------------------------------
+        
         // 1. Envelope Animation & Video Transitions
         let envelopeOpened = false;
 
