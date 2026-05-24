@@ -340,7 +340,7 @@
     </div>
 
     <div id="video-container">
-        <iframe id="bg-video" src="https://www.youtube.com/embed/6Mi8t5qMDYY?enablejsapi=1&autoplay=0&mute=1&controls=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe id="bg-video" src="https://www.youtube.com/embed/6Mi8t5qMDYY?enablejsapi=1&autoplay=0&mute=0&controls=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
         <button class="skip-btn" onclick="skipVideo()">Skip Video ➔</button>
     </div>
 
@@ -619,16 +619,22 @@
 
         function startVideoPhase() {
             const videoContainer = document.getElementById('video-container');
-            const bgVideo = document.getElementById('bg-video');
             
             videoContainer.style.display = 'block';
             
-            // Need slight delay to allow display:block to apply before changing opacity
             setTimeout(() => {
                 videoContainer.style.opacity = '1';
-                // Try to trigger video play via API postMessage if enabled, 
-                // but autoplay parameter usually handles it if browser permits muted playback
-                bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                
+                // Use the YouTube API to ensure the video plays with sound
+                if (player && typeof player.playVideo === 'function') {
+                    player.unMute();
+                    player.setVolume(100);
+                    player.playVideo();
+                } else {
+                    // Fallback just in case API hasn't loaded yet
+                    const bgVideo = document.getElementById('bg-video');
+                    bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                }
                 
                 // Remove envelope from DOM to clean up
                 setTimeout(() => { document.getElementById('envelope-screen').style.display = 'none'; }, 600);
