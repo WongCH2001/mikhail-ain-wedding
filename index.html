@@ -340,7 +340,7 @@
     </div>
 
     <div id="video-container">
-        <iframe id="bg-video" src="https://www.youtube.com/embed/6Mi8t5qMDYY?enablejsapi=1&autoplay=0&mute=0&controls=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe id="bg-video" src="https://www.youtube.com/embed/6Mi8t5qMDYY?enablejsapi=1&autoplay=0&mute=0&controls=0&playsinline=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
         <button class="skip-btn" onclick="skipVideo()">Skip Video ➔</button>
     </div>
 
@@ -601,19 +601,41 @@
         // --------------------------------------------------
         
         // 1. Envelope Animation & Video Transitions
+        // 1. Envelope Animation & Video Transitions
         let envelopeOpened = false;
 
         function openEnvelope() {
             if(envelopeOpened) return;
             envelopeOpened = true;
-            
+
+            // FIX FOR iOS: Trigger the video instantly on tap!
+            const videoContainer = document.getElementById('video-container');
+            videoContainer.style.display = 'block';
+            videoContainer.style.opacity = '1';
+
+            if (player && typeof player.playVideo === 'function') {
+                player.unMute();
+                player.setVolume(100);
+                player.playVideo();
+            } else {
+                const bgVideo = document.getElementById('bg-video');
+                bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            }
+
+            // Start the fallback safety timer (replace 45000 with your video's exact ms length)
+            setTimeout(() => {
+                skipVideo();
+            }, 45000);
+
+            // Now run the envelope animation over the video
             const envelopeScreen = document.getElementById('envelope-screen');
             envelopeScreen.classList.add('opening');
-            
+
             // Wait for flap animation then slide down
             setTimeout(() => {
                 envelopeScreen.classList.add('exiting');
-                startVideoPhase();
+                // Remove envelope from DOM to clean up
+                setTimeout(() => { envelopeScreen.style.display = 'none'; }, 600);
             }, 2500); // Wait for the glow spill animation
         }
 
