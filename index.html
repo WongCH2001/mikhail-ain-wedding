@@ -1,811 +1,462 @@
 <!DOCTYPE html>
-<html lang="en" style="scroll-behavior: smooth;">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mikhail & Ain | Walimatul Urus</title>
+    <title>Mikhail & Ain | Wedding RSVP</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?css=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-
+    <!-- Tailwind CSS with Custom Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#f9f3ea',
+                        nearblack: '#1a0a0a',
+                        kwared: '#b12220',
+                        deepred: '#93262c',
+                        darksage: '#636656',
+                        warmgold: '#c8922a',
+                        softgold: '#f3d9a4',
+                        silverecho: '#c8c8c8'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                        script: ['"Great Vibes"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* =========================================
-           CSS VARIABLES & DESIGN SYSTEM
-        ========================================= */
-        :root {
-            --primary: #6B0F1A;
-            --secondary: #8B1A1A;
-            --gold: #C9A84C;
-            --gold-light: #E8C97A;
-            --gold-dark: #8B6914;
-            --cream: #FDF6E3;
-            --dark: #1A0A0A;
-
-            --font-display: 'Great Vibes', cursive;
-            --font-serif: 'Cormorant Garamond', serif;
-            --font-sans: 'Lato', sans-serif;
-        }
-
-        /* =========================================
-           RESET & GLOBAL
-        ========================================= */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: var(--primary);
-            color: var(--cream);
-            font-family: var(--font-serif);
-            overflow-x: hidden;
+        body { background-color: #f9f3ea; color: #1a0a0a; }
+        
+        /* Custom Double Border Class */
+        .double-border {
+            border: 2px solid #c8922a; /* Outer border - Warm Gold */
+            padding: 8px;
             position: relative;
         }
-        
-        .version-tag { 
-            position: absolute; 
-            bottom: 15px; 
-            right: 20px; 
-            font-family: var(--font-sans); 
-            color: var(--gold); 
-            font-size: 0.75rem; 
-            opacity: 0.6; 
-            z-index: 5; 
-        }
-        
-        /* Gold Bokeh/Dust Overlay */
-        .bokeh-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(201, 168, 76, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
+        .double-border::after {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid #f3d9a4; /* Inner border - Soft Gold */
             pointer-events: none;
-            z-index: 0;
         }
 
-        /* Double Gold Frame */
-        .gold-frame {
-            position: fixed;
-            top: 15px; bottom: 15px; left: 15px; right: 15px;
-            border: 1px solid var(--gold);
-            outline: 3px solid var(--gold);
-            outline-offset: -6px;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        /* Typography Utilities */
-        h1, h2, .display-text { font-family: var(--font-display); font-weight: normal; color: var(--gold); }
-        .sans-text { font-family: var(--font-sans); }
-        .small-caps { font-variant: small-caps; letter-spacing: 2px; }
-        .text-center { text-align: center; }
-        
-        /* Section Styling */
-        section {
-            position: relative;
-            z-index: 1;
-            padding: 80px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .section-title { font-size: 3rem; margin-bottom: 40px; text-align: center; }
-        
-        /* Buttons */
-        .btn-gold {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--primary);
-            padding: 12px 30px;
-            font-family: var(--font-sans);
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        .btn-gold:hover { background: var(--cream); }
-
-        /* Fade-in Animation Classes */
-        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-        /* =========================================
-           1. INTRO GATEFOLD ANIMATION (Flipping Doors)
-        ========================================= */
-        #envelope-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: var(--primary);
-            z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.8s ease-in-out;
-            overflow: hidden;
-        }
-
-        /* Background floating flowers */
-        .bg-flowers {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(circle, rgba(201,168,76,0.1) 2px, transparent 2px);
-            background-size: 60px 60px;
-            opacity: 0.3; z-index: 1; pointer-events: none;
-        }
-
-        .gatefold-wrapper {
-            position: relative; width: 90%; max-width: 450px; height: 350px;
-            perspective: 1500px; z-index: 3;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
-
-        /* The Flipping Doors */
-        .door {
-            position: absolute; top: 0; width: 50%; height: 100%;
-            background: var(--primary);
-            border: 2px solid var(--gold-dark);
-            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2; overflow: hidden;
-        }
-        .door-left { left: 0; transform-origin: left center; border-right: 1px solid var(--gold); }
-        .door-right { right: 0; transform-origin: right center; border-left: 1px solid var(--gold); }
-        
-        .door-inner-border {
-            position: absolute; top: 12px; bottom: 12px; left: 12px; right: 12px;
-            border: 1px solid var(--gold); opacity: 0.6; pointer-events: none;
-        }
-
-        /* Gold Floral SVG placement */
-        .door-flower {
-            position: absolute; width: 100px; height: 100px; opacity: 0.8; pointer-events: none;
-        }
-        .flower-tl { top: 15px; left: 15px; }
-        .flower-br { bottom: 15px; right: 15px; transform: rotate(180deg); }
-
-        /* The Large Central Button */
-        .gatefold-seal {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 160px; height: 160px;
-            background: radial-gradient(circle, var(--gold-light), var(--gold-dark));
+        /* Timeline styling */
+        .timeline-dot {
+            width: 12px; height: 12px;
+            background-color: #c8922a;
             border-radius: 50%;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.7), inset 0 0 15px rgba(255,255,255,0.4);
-            z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; color: var(--primary); cursor: pointer;
-            transition: all 0.6s ease;
+            position: absolute;
+            left: -6px;
+            top: 6px;
         }
-        .gatefold-seal::before {
-            content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px;
-            border: 2px dashed var(--primary); border-radius: 50%; opacity: 0.6; pointer-events: none;
-        }
-        .seal-title { font-family: var(--font-display); font-size: 2.2rem; line-height: 1; margin-bottom: 5px; }
-        .seal-subtitle { font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-
-        .gatefold-seal:hover { transform: translate(-50%, -50%) scale(1.05); }
-
-        /* Gatefold Opening Animations */
-        .envelope-screen.opening .gatefold-seal {
-            transform: translate(-50%, -50%) scale(1.3); opacity: 0; visibility: hidden;
-        }
-        .envelope-screen.opening .door-left { transform: rotateY(-130deg); }
-        .envelope-screen.opening .door-right { transform: rotateY(130deg); }
-        .envelope-screen.opening .bg-flowers { opacity: 0; transition: opacity 1s; }
-
-        /* Version Tag */
-        .version-tag { 
-            position: absolute; bottom: 15px; right: 20px; 
-            font-family: var(--font-sans); color: var(--gold); 
-            font-size: 0.75rem; opacity: 0.6; z-index: 5; 
-        }
-
-        /* =========================================
-           2. VIDEO & HERO SECTION
-        ========================================= */
-        #video-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--dark); z-index: 9998; display: none; opacity: 0; transition: opacity 1s;
-        }
-        #video-container iframe { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        .skip-btn {
-            position: absolute; bottom: 40px; right: 40px; z-index: 9999;
-            background: rgba(0,0,0,0.5); border: 1px solid var(--gold); color: var(--gold);
-            padding: 10px 20px; font-family: var(--font-sans); cursor: pointer;
-        }
-
-        #main-content { display: none; opacity: 0; transition: opacity 1s ease; }
-
-        .hero {
-            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center;
-        }
-        .hero-names { font-size: 5rem; line-height: 1; margin: 20px 0; }
-        @media (max-width: 768px) { .hero-names { font-size: 4rem; } }
-        .hero-amp { font-size: 2.5rem; color: var(--gold-light); font-style: italic; }
-        .hero-divider { width: 150px; height: 1px; background: var(--gold); margin: 20px auto; position: relative; }
-        .hero-divider::after {
-            content: '✿'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-            color: var(--gold); font-size: 14px; background: var(--primary); padding: 0 10px;
-        }
-        .hero-date { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 10px; }
-        
-        .countdown { display: flex; gap: 15px; margin-top: 30px; }
-        .cd-box { border: 1px solid var(--gold); padding: 10px 15px; min-width: 70px; background: rgba(0,0,0,0.2); }
-        .cd-num { font-size: 1.8rem; font-weight: bold; color: var(--cream); font-family: var(--font-sans); }
-        .cd-label { font-size: 0.8rem; color: var(--gold); font-family: var(--font-sans); text-transform: uppercase; }
-
-        /* =========================================
-           3. OUR STORY TIMELINE
-        ========================================= */
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
-        .timeline::before {
-            content: ''; position: absolute; width: 2px; background: var(--gold);
-            top: 0; bottom: 0; left: 50%; margin-left: -1px;
-        }
-        .timeline-node { padding: 20px 40px; position: relative; width: 50%; }
-        .timeline-node:nth-child(odd) { left: 0; text-align: right; }
-        .timeline-node:nth-child(even) { left: 50%; text-align: left; }
-        .timeline-node::after {
-            content: ''; position: absolute; width: 16px; height: 16px; right: -8px; top: 25px;
-            background: var(--primary); border: 2px solid var(--gold); border-radius: 50%; z-index: 1;
-        }
-        .timeline-node:nth-child(even)::after { left: -8px; }
-        .node-date { font-family: var(--font-sans); color: var(--gold); font-size: 0.9rem; margin-bottom: 5px; }
-        .node-title { font-size: 1.5rem; color: var(--gold-light); margin-bottom: 10px; }
-        
-        @media (max-width: 768px) {
-            .timeline::before { left: 20px; }
-            .timeline-node { width: 100%; padding-left: 50px; padding-right: 0; text-align: left !important; left: 0 !important; }
-            .timeline-node::after { left: 12px !important; }
-        }
-
-        /* =========================================
-           4. EVENT DETAILS
-        ========================================= */
-        .details-grid { display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
-        .detail-card {
-            background: var(--secondary); border: 1px solid var(--gold); padding: 30px 20px;
-            text-align: center; flex: 1; min-width: 250px;
-        }
-        .detail-icon { font-size: 2rem; margin-bottom: 15px; color: var(--gold); }
-        .map-container iframe { width: 100%; height: 350px; border: 1px solid var(--gold); }
-
-        /* =========================================
-           5. RSVP & GUESTBOOK FORMS
-        ========================================= */
-        .form-container {
-            background: var(--secondary); border: 1px solid var(--gold); padding: 40px;
-            max-width: 600px; margin: 0 auto;
-        }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; color: var(--gold-light); font-family: var(--font-sans); font-size: 0.9rem; }
-        .form-control {
-            width: 100%; padding: 12px; background: var(--dark); border: 1px solid var(--gold);
-            color: var(--cream); font-family: var(--font-sans); outline: none;
-        }
-        .form-control:focus { border-color: var(--gold-light); }
-        .radio-group { display: flex; gap: 20px; font-family: var(--font-sans); }
-
-        /* =========================================
-           6. DRESS CODE
-        ========================================= */
-        .colors-container { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
-        .color-swatch { text-align: center; width: 120px; }
-        .brush-stroke {
-            width: 100%; height: 60px; margin-bottom: 10px;
-            /* Creating an organic brush stroke feel using border-radius */
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-        }
-        .color-label { font-family: var(--font-sans); font-size: 0.85rem; color: var(--cream); }
-        
-        /* =========================================
-           7. PHOTO GALLERY
-        ========================================= */
-        .gallery-grid {
-            column-count: 3; column-gap: 15px;
-        }
-        @media (max-width: 768px) { .gallery-grid { column-count: 2; } }
-        @media (max-width: 480px) { .gallery-grid { column-count: 1; } }
-        
-        .gallery-item { margin-bottom: 15px; break-inside: avoid; overflow: hidden; border: 1px solid var(--gold); cursor: pointer; }
-        .gallery-item img { width: 100%; display: block; transition: transform 0.5s ease; }
-        .gallery-item:hover img { transform: scale(1.05); }
-
-        /* Lightbox */
-        #lightbox {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(26,10,10,0.95); z-index: 10000; display: none;
-            justify-content: center; align-items: center;
-        }
-        #lightbox img { max-width: 90%; max-height: 90vh; border: 2px solid var(--gold); }
-        .lightbox-close {
-            position: absolute; top: 30px; right: 40px; color: var(--gold); font-size: 2rem; cursor: pointer;
-        }
-
-        /* =========================================
-           8. WISHES WALL
-        ========================================= */
-        .wishes-wall { display: flex; flex-direction: column; gap: 15px; margin-top: 40px; }
-        .wish-card {
-            background: rgba(0,0,0,0.2); border-left: 3px solid var(--gold);
-            padding: 20px; text-align: left; font-style: italic;
-        }
-        .wish-author { font-family: var(--font-display); color: var(--gold-light); font-size: 1.5rem; margin-top: 10px; display: block; }
-
-        /* =========================================
-           9. & 10. GIFT INFO & HIDDEN WISHLIST
-        ========================================= */
-        .gift-trigger {
-            margin-top: 30px; background: none; border: none; color: var(--gold);
-            font-family: var(--font-sans); font-size: 0.8rem; cursor: pointer; opacity: 0.7;
-        }
-        .gift-trigger:hover { opacity: 1; }
-        
-        #hidden-wishlist {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(107, 15, 26, 0.98); z-index: 10001;
-            display: none; opacity: 0; transition: opacity 0.5s ease;
-            overflow-y: auto; padding: 60px 20px;
-        }
-        .wishlist-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 800px; margin: 40px auto; }
-        .wishlist-card {
-            background: var(--secondary); border: 1px solid var(--gold); width: 220px; padding: 20px; text-align: center;
-        }
-        .wishlist-close { position: absolute; top: 20px; right: 30px; font-size: 1.5rem; color: var(--gold); cursor: pointer; }
-
-        /* =========================================
-           11. FOOTER
-        ========================================= */
-        footer {
-            border-top: 1px solid var(--gold-dark); padding: 40px 20px; text-align: center;
-            background: var(--primary); position: relative; z-index: 1;
+        .timeline-line {
+            border-left: 2px dashed #f3d9a4;
+            padding-left: 20px;
+            margin-left: 6px;
+            position: relative;
         }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased selection:bg-softgold selection:text-nearblack overflow-hidden" id="main-body">
 
-    <div class="bokeh-overlay"></div>
-    <div class="gold-frame"></div>
-
-    <div id="envelope-screen" class="envelope-screen">
-        <div class="bg-flowers"></div>
+    <!-- INTRO GATE OVERLAY -->
+    <div id="intro-gate" class="fixed inset-0 z-[100] flex overflow-hidden">
+        <!-- Left Gate -->
+        <div id="gate-left" class="w-1/2 h-full bg-ivory/60 backdrop-blur-md border-r border-warmgold/30 transition-transform duration-1000 ease-in-out"></div>
         
-        <div class="gatefold-wrapper" id="envelope">
-            <div class="door door-left">
-                <div class="door-inner-border"></div>
-                <svg class="door-flower flower-tl" viewBox="0 0 100 100" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10,90 Q50,90 90,10" />
-                    <path d="M30,70 Q20,50 40,40 Q50,60 30,70" />
-                    <path d="M50,50 Q40,30 60,20 Q70,40 50,50" />
-                    <path d="M70,30 Q60,10 80,0 Q90,20 70,30" />
-                </svg>
-            </div>
+        <!-- Right Gate -->
+        <div id="gate-right" class="w-1/2 h-full bg-ivory/60 backdrop-blur-md border-l border-warmgold/30 transition-transform duration-1000 ease-in-out"></div>
+        
+        <!-- Center Button & Text -->
+        <div id="gate-content" class="absolute inset-0 flex flex-col items-center justify-center z-[101] transition-opacity duration-700 ease-in-out">
+            <h1 class="font-script text-5xl md:text-7xl text-kwared mb-8 drop-shadow-sm text-center">Mikhail & Ain</h1>
             
-            <div class="door door-right">
-                <div class="door-inner-border"></div>
-                <svg class="door-flower flower-br" viewBox="0 0 100 100" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10,90 Q50,90 90,10" />
-                    <path d="M30,70 Q20,50 40,40 Q50,60 30,70" />
-                    <path d="M50,50 Q40,30 60,20 Q70,40 50,50" />
-                    <path d="M70,30 Q60,10 80,0 Q90,20 70,30" />
-                </svg>
+            <button onclick="enterWedding()" class="w-32 h-32 rounded-full bg-warmgold text-white font-serif tracking-widest uppercase text-sm hover:scale-110 hover:bg-kwared transition-all duration-300 shadow-xl border-4 border-white flex flex-col items-center justify-center relative group">
+                <span class="absolute inset-0 rounded-full border-2 border-warmgold animate-ping opacity-50 group-hover:hidden"></span>
+                ENTER
+            </button>
+        </div>
+    </div>
+
+    <!-- Hidden YouTube Player Container (Audio Only) -->
+    <div id="yt-player-container" class="hidden"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full bg-ivory/90 backdrop-blur-md z-50 border-b border-softgold">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="font-serif font-bold text-xl text-kwared tracking-widest">M & A</a>
+            <div class="hidden md:flex space-x-5 lg:space-x-6 text-xs lg:text-sm font-medium text-darksage uppercase tracking-wide">
+                <a href="#invitation" class="hover:text-warmgold transition">Invitation</a>
+                <a href="#tentative" class="hover:text-warmgold transition">Itinerary</a>
+                <a href="#tea-ceremony" class="hover:text-warmgold transition">Tea Ceremony</a>
+                <a href="#location" class="hover:text-warmgold transition">Location</a>
+                <a href="#notes" class="hover:text-warmgold transition">Notes</a>
+                <a href="#rsvp" class="text-kwared hover:text-deepred transition">RSVP & Contact</a>
             </div>
-            
-            <div class="gatefold-seal" onclick="openEnvelope()">
-                <div class="seal-title">M & A</div>
-                <div class="seal-subtitle">Tap to Open</div>
+            <!-- Mobile Menu Icon (Visual Only) -->
+            <button class="md:hidden text-nearblack"><i class="fa-solid fa-bars text-xl"></i></button>
+        </div>
+    </nav>
+
+    <!-- 1. INTRO VIDEO (Hero Section) -->
+    <section class="relative pt-24 pb-12 md:pt-32 md:pb-20 px-4 min-h-[90vh] flex flex-col justify-center items-center text-center">
+        <!-- Floating ornamental accents -->
+        <div class="absolute top-1/4 left-5 md:left-10 text-softgold opacity-50 text-4xl"><i class="fa-brands fa-pagelines"></i></div>
+        <div class="absolute bottom-1/4 right-5 md:right-10 text-softgold opacity-50 text-4xl"><i class="fa-brands fa-pagelines" style="transform: scaleX(-1);"></i></div>
+
+        <h3 class="uppercase tracking-[0.2em] text-darksage text-sm font-semibold mb-6">You are invited to</h3>
+        <h1 class="font-serif text-5xl md:text-7xl text-kwared mb-2">Mikhail Wong</h1>
+        <p class="font-script text-3xl md:text-4xl text-warmgold mb-2">&</p>
+        <h1 class="font-serif text-5xl md:text-7xl text-kwared mb-6">Ain Sofiya</h1>
+        
+        <p class="font-serif text-xl md:text-2xl text-nearblack mb-2">Solemnization and Tea Ceremony</p>
+        <p class="uppercase tracking-widest text-darksage text-sm font-bold mb-10">Sunday • 5 July 2026</p>
+
+        <!-- Vertical Video Container -->
+        <div class="w-full max-w-xs mx-auto double-border bg-white shadow-xl aspect-[9/16] relative overflow-hidden flex items-center justify-center group cursor-pointer">
+            <!-- Placeholder for actual vertical intro video -->
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wedding Intro" class="object-cover w-full h-full opacity-80 group-hover:opacity-90 transition duration-500">
+            <div class="absolute inset-0 bg-nearblack/20 group-hover:bg-nearblack/10 transition duration-500"></div>
+            <div class="absolute flex flex-col items-center">
+                <div class="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center text-kwared text-2xl shadow-lg backdrop-blur-sm group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-play ml-1"></i>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="version-tag">v1.2.3 (Testing)</div>
-    </div>
-
-    <div id="video-container">
-        <iframe id="bg-video" src="https://www.youtube.com/embed/6Mi8t5qMDYY?enablejsapi=1&autoplay=0&mute=0&controls=0&playsinline=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-        <button class="skip-btn" onclick="skipVideo()">Skip Video ➔</button>
-    </div>
-
-    <main id="main-content">
-
-        <section class="hero" id="home">
-            <div class="small-caps" style="color: var(--gold);">Walimatul Urus</div>
-            <h1 class="hero-names">Mikhail <span class="hero-amp">&</span> Ain</h1>
-            <div class="hero-divider"></div>
-            <div class="hero-date">Sunday · 05.07.26</div>
-            <div class="sans-text" style="color: var(--gold-light); font-size: 0.9rem;">Secret Glass</div>
+    <!-- 2. DIGITAL CARD INVITATION -->
+    <section id="invitation" class="py-16 px-4">
+        <div class="max-w-3xl mx-auto double-border bg-white p-8 md:p-16 text-center shadow-md">
+            <div class="text-warmgold text-2xl mb-8"><i class="fa-solid fa-rings-wedding"></i></div>
             
-            <div class="countdown">
-                <div class="cd-box"><div class="cd-num" id="cd-days">00</div><div class="cd-label">Days</div></div>
-                <div class="cd-box"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">Hours</div></div>
-                <div class="cd-box"><div class="cd-num" id="cd-mins">00</div><div class="cd-label">Mins</div></div>
-                <div class="cd-box"><div class="cd-num" id="cd-secs">00</div><div class="cd-label">Secs</div></div>
+            <p class="text-deepred italic font-serif text-xl mb-6">
+                In the Name of Allah, the Most Beneficent, The Most Merciful, we
+            </p>
+            
+            <div class="space-y-4 mb-8 font-serif text-xl text-nearblack">
+                <p>Zairul Hisam & Nur Azlin</p>
+                <div class="text-warmgold text-sm">&</div>
+                <p>Shahul Hameed & Sabariah</p>
+                <div class="text-warmgold text-sm">&</div>
+                <p>Lee Bee Chu & Wong Giak Ling</p>
             </div>
             
-            <div style="margin-top: 50px; animation: pulse 2s infinite;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <p class="text-darksage uppercase tracking-widest text-xs font-bold mb-6">Would like to invite</p>
+            
+            <div class="mb-8">
+                <p class="text-sm text-nearblack mb-1">Datuk | Datin | Mr | Mrs. | Ms.</p>
+                <div class="border-b border-silverecho w-64 md:w-96 mx-auto h-6"></div>
             </div>
-        </section>
 
-        <section id="story" class="fade-in">
-            <h2 class="section-title">Our Story</h2>
-            <div class="timeline">
-                <div class="timeline-node fade-in">
-                    <div class="node-date">December 2022</div>
-                    <div class="node-title">How We Met</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
-                </div>
-                <div class="timeline-node fade-in">
-                    <div class="node-date">March 2023</div>
-                    <div class="node-title">First Date</div>
-                    <p>Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
-                </div>
-                <div class="timeline-node fade-in">
-                    <div class="node-date">January 2025</div>
-                    <div class="node-title">The Proposal</div>
-                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin magna. Donec id justo.</p>
-                </div>
-                <div class="timeline-node fade-in">
-                    <div class="node-date">July 2026</div>
-                    <div class="node-title">Our Wedding Day</div>
-                    <p>A new chapter begins. We can't wait to share this beautiful milestone with our closest friends and family.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="details" class="fade-in">
-            <h2 class="section-title">The Celebration</h2>
-            <div class="details-grid">
-                <div class="detail-card">
-                    <div class="detail-icon">📅</div>
-                    <h3 style="color: var(--gold-light); margin-bottom: 10px;">Date</h3>
+            <p class="text-darksage leading-relaxed mb-8 italic font-serif text-lg px-4">
+                Request the honour of your presence on the occasion of the solemnization and tea ceremony of our son and daughter
+            </p>
+            
+            <h2 class="font-serif text-3xl md:text-5xl text-deepred mb-2">Mikhail Wong</h2>
+            <p class="font-script text-2xl text-warmgold mb-2">&</p>
+            <h2 class="font-serif text-3xl md:text-5xl text-deepred mb-12">Ain Sofiya</h2>
+            
+            <div class="w-24 h-px bg-silverecho mx-auto mb-8"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-nearblack font-medium uppercase tracking-widest text-sm">
+                <div>
+                    <p class="text-darksage text-xs mb-1">Date</p>
                     <p>Sunday<br>5 July 2026</p>
                 </div>
-                <div class="detail-card">
-                    <div class="detail-icon">⏱️</div>
-                    <h3 style="color: var(--gold-light); margin-bottom: 10px;">Time</h3>
-                    <p>9:00 AM – 12:00 PM</p>
+                <div class="border-t md:border-t-0 md:border-l md:border-r border-softgold pt-4 md:pt-0">
+                    <p class="text-darksage text-xs mb-1">Time</p>
+                    <p>8:00 AM<br>Till Noon</p>
                 </div>
-                <div class="detail-card">
-                    <div class="detail-icon">📍</div>
-                    <h3 style="color: var(--gold-light); margin-bottom: 10px;">Venue</h3>
-                    <p>Secret Glass<br><span style="font-size: 0.8rem; color: var(--gold);">Kuala Lumpur</span></p>
+                <div class="border-t md:border-t-0 border-softgold pt-4 md:pt-0">
+                    <p class="text-darksage text-xs mb-1">Location</p>
+                    <p>Secret Glass<br>Kampung Baru</p>
                 </div>
-            </div>
-            <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15935.12345!2d101.686855!3d3.139003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM8KwMDgnMjAuNCJOIDEwMcKwNDEnMTIuNyJF!5e0!3m2!1sen!2smy!4v1620000000000!5m2!1sen!2smy" loading="lazy"></iframe>
-            </div>
-            <p class="text-center" style="margin-top: 20px; font-style: italic;">Dress code guidelines below ↓</p>
-        </section>
-
-        <section id="rsvp" class="fade-in text-center">
-            <h2 class="section-title" style="margin-bottom: 10px;">Will You Be There?</h2>
-            <p style="margin-bottom: 40px;">Kindly RSVP by 20 June 2026</p>
-            
-            <div class="form-container">
-                <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" class="form-control" required placeholder="John Doe">
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" name="phone" class="form-control" required placeholder="+60 12-345 6789">
-                    </div>
-                    <div class="form-group">
-                        <label>Number of Guests</label>
-                        <input type="number" name="guests" class="form-control" min="1" max="6" required placeholder="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Attending?</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="attending" value="Yes" required> Yes, Joyfully</label>
-                            <label><input type="radio" name="attending" value="No"> Regretfully No</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Special Dietary Requirements</label>
-                        <textarea name="diet" class="form-control" rows="3" placeholder="Vegetarian, allergies, etc. (Optional)"></textarea>
-                    </div>
-                    <button type="submit" class="btn-gold" style="width: 100%;">Submit RSVP</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="dress-code" class="fade-in text-center">
-            <h2 class="section-title" style="margin-bottom: 10px;">Dress Code</h2>
-            <p>Please dress in the following colours</p>
-            
-            <div class="colors-container">
-                <div class="color-swatch">
-                    <div class="brush-stroke" style="background-color: #6B0F1A;"></div>
-                    <div class="color-label">Deep Maroon</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="brush-stroke" style="background-color: #C9A84C;"></div>
-                    <div class="color-label">Antique Gold</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="brush-stroke" style="background-color: #2C3E50;"></div>
-                    <div class="color-label">Midnight Navy</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="brush-stroke" style="background-color: #ECE0C8;"></div>
-                    <div class="color-label">Ivory Cream</div>
-                </div>
-                <div class="color-swatch">
-                    <div class="brush-stroke" style="background-color: #5D4037;"></div>
-                    <div class="color-label">Warm Chocolate</div>
-                </div>
-            </div>
-            <p style="margin-top: 30px; font-style: italic; font-size: 0.9rem;">Avoid all-white or all-black outfits</p>
-        </section>
-
-        <section id="gallery" class="fade-in text-center">
-            <h2 class="section-title">Moments</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item" onclick="openLightbox(this)"><img src="https://placehold.co/400x500/6B0F1A/C9A84C?text=Photo+1" alt="Gallery Photo" loading="lazy"></div>
-                <div class="gallery-item" onclick="openLightbox(this)"><img src="https://placehold.co/400x600/6B0F1A/C9A84C?text=Photo+2" alt="Gallery Photo" loading="lazy"></div>
-                <div class="gallery-item" onclick="openLightbox(this)"><img src="https://placehold.co/400x450/6B0F1A/C9A84C?text=Photo+3" alt="Gallery Photo" loading="lazy"></div>
-                <div class="gallery-item" onclick="openLightbox(this)"><img src="https://placehold.co/400x550/6B0F1A/C9A84C?text=Photo+4" alt="Gallery Photo" loading="lazy"></div>
-                <div class="gallery-item" onclick="openLightbox(this)"><img src="https://placehold.co/400x400/6B0F1A/C9A84C?text=Photo+5" alt="Gallery Photo" loading="lazy"></div>
-                <div class="gallery-item" onclick="openLightbox(this)"><img src="https://placehold.co/400x650/6B0F1A/C9A84C?text=Photo+6" alt="Gallery Photo" loading="lazy"></div>
-            </div>
-        </section>
-
-        <section id="wishes" class="fade-in text-center">
-            <h2 class="section-title" style="margin-bottom: 10px;">Leave Us a Wish</h2>
-            <p style="margin-bottom: 40px;">Write a message for the happy couple</p>
-
-            <div class="form-container" style="margin-bottom: 40px;">
-                <form action="https://formspree.io/f/YOUR_WISHES_FORMSPREE_ID" method="POST">
-                    <div class="form-group">
-                        <label>Your Name</label>
-                        <input type="text" name="name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Your Wish</label>
-                        <textarea name="wish" class="form-control" rows="4" maxlength="300" required placeholder="May your life together be filled with..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-gold">Send Wish</button>
-                </form>
-            </div>
-
-            <div class="wishes-wall">
-                <div class="wish-card">
-                    <p>"May your love be as eternal as the stars. Wishing you both endless happiness on this beautiful journey together!"</p>
-                    <span class="wish-author">— Sarah & Amir</span>
-                </div>
-                <div class="wish-card">
-                    <p>"Barakallahu lakuma wa baraka 'alaikuma wa jama'a bainakuma fii khair. Congratulations on your wedding!"</p>
-                    <span class="wish-author">— Uncle Rahim Family</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="gifts" class="fade-in text-center" style="padding-bottom: 100px;">
-            <h2 class="section-title">Your Presence is Our Gift</h2>
-            <p style="max-width: 600px; margin: 0 auto; line-height: 1.8;">
-                Your presence at our celebration is the greatest gift of all. However, if you wish to honour us further, we have prepared a small wishlist for those who insist.
-            </p>
-            <button class="gift-trigger" onclick="toggleWishlist()">🔒 View Wishlist</button>
-        </section>
-
-        <footer>
-            <h2 class="display-text" style="font-size: 3rem; margin-bottom: 10px;">Mikhail & Ain</h2>
-            <p class="sans-text" style="color: var(--gold-light); letter-spacing: 2px;">5 · 7 · 2026</p>
-            <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.7;">Made with love 🤍</p>
-        </footer>
-
-    </main>
-
-    <div id="hidden-wishlist">
-        <div class="wishlist-close" onclick="toggleWishlist()">✕ Close</div>
-        <div class="gold-frame" style="z-index: -1;"></div>
-        <h2 class="section-title text-center" style="margin-top: 40px;">Our Little Wishlist</h2>
-        <p class="text-center" style="margin-bottom: 40px;">Purely optional — your presence means everything 🤍</p>
-        
-        <div class="wishlist-grid">
-            <div class="wishlist-card">
-                <div style="height: 150px; background: #fff; margin-bottom: 15px;">
-                    <img src="https://placehold.co/200x150/EEEEEE/888888?text=Gift+1" style="width: 100%; height:100%; object-fit: cover;">
-                </div>
-                <h4 style="font-family: var(--font-sans); margin-bottom: 5px;">Kitchen Mixer</h4>
-                <p style="color: var(--gold-light); margin-bottom: 15px;">RM 350.00</p>
-                <a href="#" class="btn-gold" style="padding: 8px 15px; font-size: 0.8rem;">View Item</a>
-            </div>
-            <div class="wishlist-card">
-                <div style="height: 150px; background: #fff; margin-bottom: 15px;">
-                    <img src="https://placehold.co/200x150/EEEEEE/888888?text=Gift+2" style="width: 100%; height:100%; object-fit: cover;">
-                </div>
-                <h4 style="font-family: var(--font-sans); margin-bottom: 5px;">Air Purifier</h4>
-                <p style="color: var(--gold-light); margin-bottom: 15px;">RM 600.00</p>
-                <a href="#" class="btn-gold" style="padding: 8px 15px; font-size: 0.8rem;">View Item</a>
-            </div>
-            <div class="wishlist-card">
-                <div style="height: 150px; background: #fff; margin-bottom: 15px;">
-                    <img src="https://placehold.co/200x150/EEEEEE/888888?text=Gift+3" style="width: 100%; height:100%; object-fit: cover;">
-                </div>
-                <h4 style="font-family: var(--font-sans); margin-bottom: 5px;">Honeymoon Fund</h4>
-                <p style="color: var(--gold-light); margin-bottom: 15px;">Any Amount</p>
-                <a href="#" class="btn-gold" style="padding: 8px 15px; font-size: 0.8rem;">Contribute</a>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="lightbox">
-        <div class="lightbox-close" onclick="closeLightbox()">✕</div>
-        <img id="lightbox-img" src="" alt="Full Screen">
-    </div>
+    <!-- 3. TENTATIVE -->
+    <section id="tentative" class="py-16 px-4 bg-white">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-4xl font-bold text-deepred mb-2">Schedule of Events</h2>
+                <div class="h-[2px] w-24 bg-softgold mx-auto"></div>
+            </div>
 
+            <div class="max-w-md mx-auto">
+                <div class="timeline-line pb-8">
+                    <div class="timeline-dot"></div>
+                    <h3 class="font-bold text-kwared text-lg">8:00 AM</h3>
+                    <h4 class="font-serif text-xl text-nearblack mb-1">Guest Arrival & Welcome</h4>
+                    <p class="text-sm text-darksage">Please find your seats and enjoy light refreshments.</p>
+                </div>
+                
+                <div class="timeline-line pb-8">
+                    <div class="timeline-dot"></div>
+                    <h3 class="font-bold text-kwared text-lg">9:00 AM</h3>
+                    <h4 class="font-serif text-xl text-nearblack mb-1">Majlis Akad Nikah</h4>
+                    <p class="text-sm text-darksage">The solemnization ceremony and ring exchange.</p>
+                </div>
+
+                <div class="timeline-line pb-8">
+                    <div class="timeline-dot"></div>
+                    <h3 class="font-bold text-kwared text-lg">10:00 AM</h3>
+                    <h4 class="font-serif text-xl text-nearblack mb-1">Jamuan Makan (Lunch)</h4>
+                    <p class="text-sm text-darksage">The buffet is officially open for all guests.</p>
+                </div>
+
+                <div class="timeline-line pb-8">
+                    <div class="timeline-dot"></div>
+                    <h3 class="font-bold text-kwared text-lg">10:30 AM</h3>
+                    <h4 class="font-serif text-xl text-nearblack mb-1">The Tea Ceremony</h4>
+                    <p class="text-sm text-darksage">Traditional tea serving with immediate family members.</p>
+                </div>
+
+                <div class="timeline-line">
+                    <div class="timeline-dot"></div>
+                    <h3 class="font-bold text-kwared text-lg">11:30 AM</h3>
+                    <h4 class="font-serif text-xl text-nearblack mb-1">Event Concludes</h4>
+                    <p class="text-sm text-darksage">Doorgifts distribution and final farewells.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW 4. TEA CEREMONY EDUCATION -->
+    <section id="tea-ceremony" class="py-16 px-4 bg-ivory border-y border-softgold">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <div class="text-warmgold text-4xl mb-4"><i class="fa-solid fa-mug-hot"></i></div>
+                <h2 class="font-serif text-4xl font-bold text-deepred mb-4">The Chinese Tea Ceremony</h2>
+                <div class="h-[2px] w-24 bg-softgold mx-auto mb-6"></div>
+            </div>
+
+            <div class="bg-white p-8 md:p-12 shadow-sm border border-silverecho text-center">
+                <p class="text-darksage leading-relaxed text-sm md:text-base mb-6">
+                    The Chinese Tea Ceremony (<em> 敬茶, jìng chá </em>) is one of the most significant and beautiful traditions in a Chinese wedding. It serves as the formal introduction of the bride and groom to each other's families.
+                </p>
+                <div class="grid md:grid-cols-3 gap-6 text-left mt-10">
+                    <div class="bg-ivory p-6 border border-softgold/50 rounded">
+                        <h4 class="font-serif font-bold text-xl text-kwared mb-2"><i class="fa-solid fa-hands-holding text-warmgold mr-2"></i>A Sign of Respect</h4>
+                        <p class="text-xs text-darksage leading-relaxed">By serving tea to their parents and elders, Mikhail and Ain express their deep gratitude and respect for the love, support, and upbringing they have received.</p>
+                    </div>
+                    <div class="bg-ivory p-6 border border-softgold/50 rounded">
+                        <h4 class="font-serif font-bold text-xl text-kwared mb-2"><i class="fa-solid fa-envelope-open-text text-warmgold mr-2"></i>The Blessings</h4>
+                        <p class="text-xs text-darksage leading-relaxed">After drinking the tea, the elders will offer their wisdom, blessings for a happy marriage, and present gifts—usually jewelry or an <em>Ang Pow</em> (Red Envelope).</p>
+                    </div>
+                    <div class="bg-ivory p-6 border border-softgold/50 rounded">
+                        <h4 class="font-serif font-bold text-xl text-kwared mb-2"><i class="fa-solid fa-users text-warmgold mr-2"></i>Merging Families</h4>
+                        <p class="text-xs text-darksage leading-relaxed">This ceremony officially welcomes the bride and groom into their new respective families. We are thrilled to share this cultural merging with all of you!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. LOCATION -->
+    <section id="location" class="py-16 px-4 bg-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="font-serif text-4xl font-bold text-deepred mb-2">The Venue</h2>
+            <div class="h-[2px] w-24 bg-softgold mx-auto mb-6"></div>
+            
+            <h3 class="font-bold text-2xl text-nearblack mb-2">Secret Glass</h3>
+            <p class="text-darksage text-sm mb-8 leading-relaxed">
+                2, Jalan Liew Weng Chee, Kampung Baru,<br>
+                50450 Kuala Lumpur, W.P. Kuala Lumpur
+            </p>
+            
+            <!-- Map Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+                <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-kwared text-white font-bold uppercase tracking-widest text-sm rounded hover:bg-deepred transition shadow-md">
+                    <i class="fa-brands fa-waze text-xl mr-2"></i> Open in Waze
+                </a>
+                <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-warmgold text-white font-bold uppercase tracking-widest text-sm rounded hover:bg-[#b07c20] transition shadow-md">
+                    <i class="fa-solid fa-map-location-dot text-xl mr-2"></i> Google Maps
+                </a>
+            </div>
+
+            <!-- Visual Map Placeholder -->
+            <div class="w-full h-64 bg-silverecho rounded border border-softgold flex items-center justify-center overflow-hidden grayscale hover:grayscale-0 transition duration-500">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Map View Placeholder" class="w-full h-full object-cover opacity-60">
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. DRESS CODE & 7. IMPORTANT NOTES -->
+    <section id="notes" class="py-16 px-4 bg-ivory">
+        <div class="max-w-5xl mx-auto">
+            
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-4xl font-bold text-deepred mb-2">Important Details</h2>
+                <div class="h-[2px] w-24 bg-softgold mx-auto"></div>
+            </div>
+
+            <!-- STRICT PRIVATE EVENT WARNING -->
+            <div class="bg-white border-l-8 border-kwared p-6 md:p-8 mb-10 shadow-lg text-center md:text-left">
+                <h3 class="text-kwared font-bold text-xl uppercase tracking-widest mb-3">
+                    <i class="fa-solid fa-lock mr-2"></i> Strictly Private Event
+                </h3>
+                <p class="text-nearblack text-sm md:text-base leading-relaxed mb-4">
+                    This is an exclusive, closed-door celebration. <strong>If you have not received a direct confirmation message from us or our admins, you will not be permitted entry.</strong> No uninvited plus-ones or walk-ins are allowed. We deeply appreciate your understanding in keeping our event intimate.
+                </p>
+                <div class="bg-ivory p-3 text-xs text-darksage border border-silverecho inline-block font-bold">
+                    <i class="fa-solid fa-rotate mr-1"></i> Please visit this website regularly to stay updated on any changes.
+                </div>
+            </div>
+
+            <!-- Dress Code Feature -->
+            <div class="bg-white double-border p-8 mb-10 text-center shadow-sm">
+                <h3 class="font-serif text-3xl text-nearblack mb-3">Dress Code Palette</h3>
+                <p class="text-darksage text-sm mb-6">We would love it if you could dress in our color palette, but please prioritize your comfort!</p>
+                
+                <!-- Swatches -->
+                <div class="flex justify-center flex-wrap gap-6 mb-8">
+                    <div class="flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-full mb-2 bg-[#f472b6] shadow-md border-2 border-white ring-1 ring-silverecho"></div>
+                        <span class="text-xs text-darksage uppercase tracking-widest font-bold">Pink</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-full mb-2 bg-[#facc15] shadow-md border-2 border-white ring-1 ring-silverecho"></div>
+                        <span class="text-xs text-darksage uppercase tracking-widest font-bold">Yellow</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-full mb-2 bg-[#fffdd0] shadow-md border-2 border-white ring-1 ring-silverecho"></div>
+                        <span class="text-xs text-darksage uppercase tracking-widest font-bold">Cream</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-14 h-14 rounded-full mb-2 bg-[#14532d] shadow-md border-2 border-white ring-1 ring-silverecho"></div>
+                        <span class="text-xs text-darksage uppercase tracking-widest font-bold">Dark Green</span>
+                    </div>
+                </div>
+
+                <div class="bg-kwared/10 border-l-4 border-kwared p-4 inline-block mx-auto text-left max-w-lg">
+                    <p class="text-kwared font-bold text-sm uppercase tracking-widest mb-1">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Strictly No Red Attire
+                    </p>
+                    <p class="text-nearblack text-sm">
+                        Please avoid wearing <strong>Red</strong>, as this color is exclusively reserved for the Bride.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Parking Note -->
+            <div class="bg-white p-8 border border-silverecho hover:border-warmgold transition text-center shadow-sm max-w-2xl mx-auto">
+                <div class="text-warmgold text-3xl mb-4"><i class="fa-solid fa-square-parking"></i></div>
+                <h4 class="font-serif text-2xl font-bold text-nearblack mb-2">Parking</h4>
+                <p class="text-sm text-darksage leading-relaxed">
+                    Details regarding parking at Secret Glass will be updated closer to the date. Please check back here soon!
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 8. RSVP & CONTACT -->
+    <section id="rsvp" class="py-20 px-4 bg-white border-t border-softgold">
+        <div class="max-w-4xl mx-auto">
+            
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-4xl font-bold text-deepred mb-2">RSVP & Contact</h2>
+                <div class="h-[2px] w-24 bg-softgold mx-auto mb-6"></div>
+                <p class="text-darksage text-sm">Please submit your RSVP using the form below before 5 June 2026.</p>
+            </div>
+
+            <!-- Google Form Button -->
+            <div class="text-center mb-16">
+                <a href="#" target="_blank" class="inline-block px-10 py-5 bg-nearblack text-white font-bold uppercase tracking-widest text-sm rounded shadow-xl hover:bg-kwared hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-solid fa-envelope-open-text mr-2 text-warmgold"></i> Click Here to RSVP
+                </a>
+            </div>
+
+            <!-- Contact Admins -->
+            <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                
+                <div class="bg-ivory p-6 border border-silverecho rounded text-center">
+                    <h4 class="font-bold text-nearblack uppercase text-sm tracking-widest mb-1">Anis</h4>
+                    <p class="text-xs text-darksage mb-4">Sister / Floor Manager</p>
+                    <a href="https://wa.me/60123456789" target="_blank" class="inline-flex items-center justify-center px-4 py-2 bg-[#25D366] text-white text-xs font-bold uppercase rounded hover:bg-[#128C7E] transition">
+                        <i class="fa-brands fa-whatsapp text-lg mr-2"></i> WhatsApp Anis
+                    </a>
+                </div>
+                
+                <div class="bg-ivory p-6 border border-silverecho rounded text-center">
+                    <h4 class="font-bold text-nearblack uppercase text-sm tracking-widest mb-1">Invite Admin</h4>
+                    <p class="text-xs text-darksage mb-4">Guest Coordination</p>
+                    <a href="https://wa.me/60198765432" target="_blank" class="inline-flex items-center justify-center px-4 py-2 bg-[#25D366] text-white text-xs font-bold uppercase rounded hover:bg-[#128C7E] transition">
+                        <i class="fa-brands fa-whatsapp text-lg mr-2"></i> WhatsApp Admin
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 9. WISHLIST -->
+    <section id="wishlist" class="py-16 px-4 bg-ivory text-center border-t border-softgold">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-warmgold text-4xl mb-6"><i class="fa-solid fa-gift"></i></div>
+            <h2 class="font-serif text-3xl font-bold text-nearblack mb-4">Wedding Wishlist</h2>
+            <p class="text-darksage leading-relaxed mb-8 text-sm md:text-base">
+                Your presence at our wedding is the greatest gift of all. However, should you wish to bless us with a gift, a monetary contribution towards our future together would be sincerely appreciated.
+            </p>
+            
+        </div>
+
+            <!-- Single Gift Registry Link -->
+            <div class="text-center pb-8 mt-4 px-4 w-full flex justify-center">
+                <a href="#" target="_blank" class="inline-flex flex-col items-center justify-center bg-white double-border p-8 md:p-10 max-w-lg w-full shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer text-center">
+                    <div class="text-warmgold text-3xl mb-4 group-hover:scale-110 transition-transform duration-300"><i class="fa-solid fa-box-open"></i></div>
+                    <h3 class="font-serif text-2xl md:text-3xl font-bold text-nearblack mb-3">Our Gift Registry</h3>
+                    <p class="text-xs md:text-sm text-darksage uppercase tracking-widest font-bold leading-relaxed">
+                        Click here to book/reserve the suggested gift<br class="hidden md:block"> for the bride and groom
+                    </p>
+                </a>
+            </div>
+        </section>
+
+    <!-- Footer -->
+    <footer class="bg-nearblack text-ivory py-10 text-center">
+        <h2 class="font-serif text-3xl mb-4 text-softgold">M & A</h2>
+        <p class="text-xs tracking-[0.2em] uppercase text-silverecho">#MikhailGotHisAin • 05.07.2026</p>
+    </footer>
+
+    <!-- Gate Logic & YouTube Audio Injection -->
     <script>
-        // --- NEW: YouTube API to detect when video ends ---
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('bg-video', {
-                events: {
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        function onPlayerStateChange(event) {
-            // YT.PlayerState.ENDED is 0
-            if (event.data === 0) {
-                skipVideo(); // Automatically go to website when video finishes
-            }
-        }
-        // --------------------------------------------------
-        
-        // 1. Gatefold Animation & Video Transitions
-        let envelopeOpened = false;
-
-        function openEnvelope() {
-            if(envelopeOpened) return;
-            envelopeOpened = true;
-
-            // 1. iOS FIX: Trigger the video instantly on tap (plays quietly in background)
-            const videoContainer = document.getElementById('video-container');
-            videoContainer.style.display = 'block';
-
-            if (player && typeof player.playVideo === 'function') {
-                player.unMute();
-                player.setVolume(100);
-                player.playVideo();
-            } else {
-                const bgVideo = document.getElementById('bg-video');
-                bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-            }
-
-            // Start the fallback safety timer
-            setTimeout(() => { skipVideo(); }, 45000);
-
-            // 2. Open the gatefold doors
-            const envelopeScreen = document.getElementById('envelope-screen');
-            envelopeScreen.classList.add('opening');
-
-            // 3. THE PAUSE: Wait 1.5s for doors to open, PLUS 0.5s pause (Total 2000ms)
+        function enterWedding() {
+            // 1. Animate Gate Panels sliding apart
+            document.getElementById('gate-left').classList.add('-translate-x-full');
+            document.getElementById('gate-right').classList.add('translate-x-full');
+            
+            // 2. Fade out Center Content
+            document.getElementById('gate-content').classList.add('opacity-0');
+            
+            // 3. Enable body scrolling so users can browse the site
+            document.getElementById('main-body').classList.remove('overflow-hidden');
+            
+            // 4. Hide overlay completely after animation finishes (1 second)
             setTimeout(() => {
-                // Fade out the maroon background
-                envelopeScreen.style.opacity = '0';
-                
-                // Fade in the playing video
-                videoContainer.style.opacity = '1';
-
-                // Completely remove the envelope code after it fades out
-                setTimeout(() => { envelopeScreen.style.display = 'none'; }, 800);
-            }, 2000); 
-        }
-
-        function startVideoPhase() {
-            const videoContainer = document.getElementById('video-container');
-            
-            videoContainer.style.display = 'block';
-            
-            setTimeout(() => {
-                videoContainer.style.opacity = '1';
-                
-                // Use the YouTube API to ensure the video plays with sound
-                if (player && typeof player.playVideo === 'function') {
-                    player.unMute();
-                    player.setVolume(100);
-                    player.playVideo();
-                } else {
-                    // Fallback just in case API hasn't loaded yet
-                    const bgVideo = document.getElementById('bg-video');
-                    bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                }
-                
-                // Remove envelope from DOM to clean up
-                setTimeout(() => { document.getElementById('envelope-screen').style.display = 'none'; }, 600);
-            }, 50);
-        }
-
-        function skipVideo() {
-            const videoContainer = document.getElementById('video-container');
-            const mainContent = document.getElementById('main-content');
-            const bgVideo = document.getElementById('bg-video');
-            
-            // --- NEW: Stop the video and audio ---
-            if (player && typeof player.pauseVideo === 'function') {
-                player.pauseVideo();
-            } else {
-                // Fallback if the skip button is pressed before the YouTube API fully loads
-                bgVideo.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            }
-            // -------------------------------------
-
-            videoContainer.style.opacity = '0';
-            mainContent.style.display = 'block';
-            
-            setTimeout(() => {
-                videoContainer.style.display = 'none';
-                mainContent.style.opacity = '1';
+                document.getElementById('intro-gate').style.display = 'none';
             }, 1000);
-        }
 
-        // 2. Countdown Timer
-        // Target: 5 July 2026, 09:00:00 MYT
-        const countDownDate = new Date("Jul 5, 2026 09:00:00").getTime();
-
-        const x = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("cd-days").innerHTML = days < 10 ? '0'+days : days;
-            document.getElementById("cd-hours").innerHTML = hours < 10 ? '0'+hours : hours;
-            document.getElementById("cd-mins").innerHTML = minutes < 10 ? '0'+minutes : minutes;
-            document.getElementById("cd-secs").innerHTML = seconds < 10 ? '0'+seconds : seconds;
-
-            if (distance < 0) {
-                clearInterval(x);
-                document.querySelector(".countdown").innerHTML = "<div class='display-text' style='font-size:2rem'>The Day is Here!</div>";
-            }
-        }, 1000);
-
-        // 3. Scroll Reveal Animations (Intersection Observer)
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(element => {
-            observer.observe(element);
-        });
-
-        // 4. Photo Gallery Lightbox
-        function openLightbox(element) {
-            const lightbox = document.getElementById('lightbox');
-            const imgTarget = document.getElementById('lightbox-img');
-            const imgSrc = element.querySelector('img').src;
-            
-            imgTarget.src = imgSrc;
-            lightbox.style.display = 'flex';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-        }
-
-        // 5. Hidden Wishlist Toggle
-        function toggleWishlist() {
-            const wishlist = document.getElementById('hidden-wishlist');
-            if(wishlist.style.display === 'block') {
-                wishlist.style.opacity = '0';
-                setTimeout(() => wishlist.style.display = 'none', 500);
-            } else {
-                wishlist.style.display = 'block';
-                setTimeout(() => wishlist.style.opacity = '1', 10);
-            }
+            // 5. Inject YouTube audio (Autoplay is permitted because the user clicked a button!)
+            const ytContainer = document.getElementById('yt-player-container');
+            ytContainer.innerHTML = '<iframe width="1" height="1" src="https://www.youtube.com/embed/QgaTQ5-XfMM?autoplay=1&loop=1&playlist=QgaTQ5-XfMM" frameborder="0" allow="autoplay" allowfullscreen></iframe>';
         }
     </script>
 </body>
