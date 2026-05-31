@@ -503,6 +503,7 @@
                 // Dropbox direct stream link (dl=0 changed to raw=1)
                 bgMusic = new Audio('https://www.dropbox.com/scl/fi/dqmuen1ila2h4az8g3ekb/M5000004l9CS0PrnVF.mp3?rlkey=b71foxhx4v02vltyzqop14k8m&st=l76pluob&raw=1');
                 bgMusic.loop = true;
+                bgMusic.volume = 0.25; // Set volume to 25% (quarter volume)
             }
             
             bgMusic.play().catch(error => {
